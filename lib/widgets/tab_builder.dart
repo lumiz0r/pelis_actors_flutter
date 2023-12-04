@@ -35,7 +35,7 @@ class TabBuilder extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image.network(
-                    'https://image.tmdb.org/t/p/w500/${snapshot.data![index].posterPath}',
+                    'https://image.tmdb.org/t/p/w500/${snapshot.data![index].profilePath}',
                     height: 300,
                     width: 180,
                     fit: BoxFit.cover,

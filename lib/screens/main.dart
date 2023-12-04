@@ -67,7 +67,7 @@ class Main extends StatelessWidget {
                     ),
                   ),
                   label: 'Search',
-                  tooltip: 'Search Movies',
+                  tooltip: 'Search Actors',
                 ),
                 BottomNavigationBarItem(
                   icon: Container(
@@ -81,8 +81,8 @@ class Main extends StatelessWidget {
                           : const Color(0xFF67686D),
                     ),
                   ),
-                  label: 'Watch list',
-                  tooltip: 'Your WatchList',
+                  label: 'Saved List',
+                  tooltip: 'Your Actor List',
                 ),
               ],
             ),

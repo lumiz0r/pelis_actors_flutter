@@ -1,35 +1,32 @@
 import 'dart:convert';
+import 'actor.dart';
 
 class Movie {
   int id;
-  String title;
-  String posterPath;
-  String backdropPath;
-  String overview;
-  String releaseDate;
-  double voteAverage;
-  List<int> genreIds;
+  String name;
+  String profilePath;
+  double popularity;
+  List<Actor> actorMovie;
+  
+
+
   Movie({
     required this.id,
-    required this.title,
-    required this.posterPath,
-    required this.backdropPath,
-    required this.overview,
-    required this.releaseDate,
-    required this.voteAverage,
-    required this.genreIds,
+    required this.name,
+    required this.profilePath,
+    required this.popularity,
+    required this.actorMovie,
+
   });
 
   factory Movie.fromMap(Map<String, dynamic> map) {
     return Movie(
       id: map['id'] as int,
-      title: map['title'] ?? '',
-      posterPath: map['poster_path'] ?? '',
-      backdropPath: map['backdrop_path'] ?? '',
-      overview: map['overview'] ?? '',
-      releaseDate: map['release_date'] ?? '',
-      voteAverage: map['vote_average']?.toDouble() ?? 0.0,
-      genreIds: List<int>.from(map['genre_ids']),
+      name: map['name'] ?? '',
+      profilePath: map['profile_path'] ?? '',
+      popularity: map['popularity']?.toDouble() ?? 0.0,
+      actorMovie: [],
+
     );
   }
 

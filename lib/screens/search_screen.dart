@@ -73,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Obx(
               (() => Get.find<SearchController1>().isLoading.value
                   ? const CircularProgressIndicator()
-                  : Get.find<SearchController1>().foundedMovies.isEmpty
+                  : Get.find<SearchController1>().foundedActors.isEmpty
                       ? SizedBox(
                           width: Get.width / 1.5,
                           child: Column(
@@ -117,14 +117,14 @@ class _SearchScreenState extends State<SearchScreen> {
                         )
                       : ListView.separated(
                           itemCount:
-                              Get.find<SearchController1>().foundedMovies.length,
+                              Get.find<SearchController1>().foundedActors.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 24),
                           itemBuilder: (_, index) {
                             Movie movie = Get.find<SearchController1>()
-                                .foundedMovies[index];
+                                .foundedActors[index];
                             return GestureDetector(
                               onTap: () => Get.to(DetailsScreen(movie: movie)),
                               child: Row(
@@ -133,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.network(
-                                      Api.imageBaseUrl + movie.posterPath,
+                                      Api.imageBaseUrl + movie.profilePath,
                                       height: 180,
                                       width: 120,
                                       fit: BoxFit.cover,

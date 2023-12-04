@@ -58,7 +58,7 @@ class WatchList extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.network(
-                                      Api.imageBaseUrl + movie.posterPath,
+                                      Api.imageBaseUrl + movie.profilePath,
                                       height: 180,
                                       width: 120,
                                       fit: BoxFit.cover,

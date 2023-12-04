@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movies_app/api/api.dart';
 import 'package:movies_app/api/api_service.dart';
 import 'package:movies_app/controllers/bottom_navigator_controller.dart';
 import 'package:movies_app/controllers/movies_controller.dart';
@@ -28,7 +27,7 @@ class HomeScreen extends StatelessWidget {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'What do you want to watch?',
+                'What do you want to search?',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 24,
@@ -78,29 +77,17 @@ class HomeScreen extends StatelessWidget {
                         0xFF3A3F47,
                       ),
                       tabs: [
-                        Tab(text: 'Now playing'),
-                        Tab(text: 'Upcoming'),
-                        Tab(text: 'Top rated'),
+                        Tab(text: 'Trending Actors'),
                         Tab(text: 'Popular'),
                       ]),
                   SizedBox(
                     height: 400,
                     child: TabBarView(children: [
                       TabBuilder(
-                        future: ApiService.getCustomMovies(
-                            'now_playing?api_key=${Api.apiKey}&language=en-US&page=1'),
+                        future: ApiService.getTrending(),
                       ),
                       TabBuilder(
-                        future: ApiService.getCustomMovies(
-                            'upcoming?api_key=${Api.apiKey}&language=en-US&page=1'),
-                      ),
-                      TabBuilder(
-                        future: ApiService.getCustomMovies(
-                            'top_rated?api_key=${Api.apiKey}&language=en-US&page=1'),
-                      ),
-                      TabBuilder(
-                        future: ApiService.getCustomMovies(
-                            'popular?api_key=${Api.apiKey}&language=en-US&page=1'),
+                        future: ApiService.getPopular(),
                       ),
                     ]),
                   ),

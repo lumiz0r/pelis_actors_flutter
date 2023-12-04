@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/models/movie.dart';
-import 'package:movies_app/utils/utils.dart';
 
 class Infos extends StatelessWidget {
   const Infos({Key? key, required this.movie}) : super(key: key);
@@ -17,7 +16,7 @@ class Infos extends StatelessWidget {
           SizedBox(
             width: 200,
             child: Text(
-              movie.title,
+              movie.name,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
@@ -35,43 +34,13 @@ class Infos extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    movie.voteAverage == 0.0
+                    movie.popularity == 0.0
                         ? 'N/A'
-                        : movie.voteAverage.toString(),
+                        : movie.popularity.toString(),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w200,
                       color: Color(0xFFFF8700),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/Ticket.svg'),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    Utils.getGenres(movie),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w200,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/calender.svg'),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    movie.releaseDate.split('-')[0],
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w200,
                     ),
                   ),
                 ],

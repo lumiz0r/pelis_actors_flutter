@@ -28,7 +28,7 @@ class TopRatedItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
-                Api.imageBaseUrl + movie.posterPath,
+                Api.imageBaseUrl + movie.profilePath,
                 fit: BoxFit.cover,
                 height: 250,
                 width: 180,

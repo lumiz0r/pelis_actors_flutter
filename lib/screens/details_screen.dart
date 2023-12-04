@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:movies_app/api/api.dart';
 import 'package:movies_app/api/api_service.dart';
 import 'package:movies_app/controllers/movies_controller.dart';
+import 'package:movies_app/models/actor.dart';
+import 'package:movies_app/models/biographyActor.dart';
 
 import 'package:movies_app/models/movie.dart';
-import 'package:movies_app/models/review.dart';
-import 'package:movies_app/utils/utils.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({
@@ -46,7 +46,7 @@ class DetailsScreen extends StatelessWidget {
                       ),
                     ),
                     Tooltip(
-                      message: 'Save this movie to your watch list',
+                      message: 'Save this actor to favourite',
                       triggerMode: TooltipTriggerMode.tap,
                       child: IconButton(
                         onPressed: () {
@@ -85,7 +85,7 @@ class DetailsScreen extends StatelessWidget {
                         bottomRight: Radius.circular(16),
                       ),
                       child: Image.network(
-                        Api.imageBaseUrl + movie.backdropPath,
+                        Api.imageBaseUrl + movie.profilePath,
                         width: Get.width,
                         height: 250,
                         fit: BoxFit.cover,
@@ -114,7 +114,7 @@ class DetailsScreen extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
-                            'https://image.tmdb.org/t/p/w500/${movie.posterPath}',
+                            'https://image.tmdb.org/t/p/w500/${movie.profilePath}',
                             width: 110,
                             height: 140,
                             fit: BoxFit.cover,
@@ -137,7 +137,7 @@ class DetailsScreen extends StatelessWidget {
                       child: SizedBox(
                         width: 230,
                         child: Text(
-                          movie.title,
+                          movie.name,
                           style: const TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.w500,
@@ -162,9 +162,9 @@ class DetailsScreen extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              movie.voteAverage == 0.0
+                              movie.popularity == 0.0
                                   ? 'N/A'
-                                  : movie.voteAverage.toString(),
+                                  : movie.popularity.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFFFF8700),
@@ -180,48 +180,6 @@ class DetailsScreen extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Opacity(
-                opacity: .6,
-                child: SizedBox(
-                  width: Get.width / 1.8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/calender.svg'),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            movie.releaseDate.split('-')[0],
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Text('|'),
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/Ticket.svg'),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            Utils.getGenres(movie),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: DefaultTabController(
@@ -236,9 +194,8 @@ class DetailsScreen extends StatelessWidget {
                             0xFF3A3F47,
                           ),
                           tabs: [
-                            Tab(text: 'About Movie'),
-                            Tab(text: 'Reviews'),
-                            Tab(text: 'Cast'),
+                            Tab(text: 'Description'),
+                            Tab(text: 'Movies'),
                           ]),
                       SizedBox(
                         height: 400,
@@ -246,88 +203,123 @@ class DetailsScreen extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(top: 20),
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              movie.overview,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w200,
-                              ),
-                            ),
+                            child:FutureBuilder<BiographyActor?>(
+                                future: ApiService.getBiography(movie.id),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 30.0),
+                                      child: Text(
+                                        'Error loading actor biography: ${snapshot.error}',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    );
+                                  } else if (snapshot.hasData &&
+                                      snapshot.data != null) {
+                                    BiographyActor bio = snapshot.data!;
+
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            bio.biography,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          // Add more details as needed
+                                        ],
+                                      ),
+                                    );
+                                  } else {
+                                    return const Padding(
+                                      padding: EdgeInsets.only(top: 30.0),
+                                      child: Text(
+                                        'No actor biography available.',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    );
+                                  }
+                                },
+                              )
                           ),
-                          FutureBuilder<List<Review>?>(
-                            future: ApiService.getMovieReviews(movie.id),
+                          FutureBuilder<List<Actor>?>(
+                            future: ApiService.getActor(movie.name),
                             builder: (_, snapshot) {
-                              if (snapshot.hasData) {
-                                return snapshot.data!.isEmpty
-                                    ? const Padding(
-                                        padding: EdgeInsets.only(top: 30.0),
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                  child: Text('Error: ${snapshot.error}'),
+                                );
+                              } else if (snapshot.hasData) {
+                                List<Actor> cast = snapshot.data!;
+                                return cast.isEmpty
+                                    ? const Center(
                                         child: Text(
-                                          'No review',
-                                          textAlign: TextAlign.center,
-                                        ),
+                                            'No cast information available.'),
                                       )
                                     : ListView.builder(
+                                        scrollDirection: Axis.horizontal,
                                         itemCount: snapshot.data!.length,
-                                        itemBuilder: (_, index) => Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/avatar.svg',
-                                                    height: 50,
-                                                    width: 50,
-                                                    // fit: BoxFit.cover,
+                                        itemBuilder: (context, index) {
+                                          Actor actor =
+                                              snapshot.data![index];
+                                          return Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: Image.network(
+                                                    actor.getFoto(),
+                                                    height: 150,
+                                                    width: 100,
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  const SizedBox(
-                                                    height: 15,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  actor.title,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  actor.releaseDate,
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-                                                  Text(
-                                                    snapshot.data![index].rating
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                      color: Color(0xff0296E5),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    snapshot
-                                                        .data![index].author,
-                                                    style: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 250,
-                                                    child: Text(snapshot
-                                                        .data![index].comment),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
                                       );
                               } else {
                                 return const Center(
-                                  child: Text('Wait...'),
+                                  child:
+                                      Text('No movie information available.'),
                                 );
                               }
                             },
