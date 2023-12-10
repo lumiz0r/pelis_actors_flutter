@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 height: 10,
                               ),
                               const Text(
-                                'We Are Sorry, We Can Not Find The Movie :(',
+                                'We Are Sorry, We Can Not Find The Actor :(',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 28,
@@ -104,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               const Opacity(
                                 opacity: .8,
                                 child: Text(
-                                  'Find your movie by Type title, categories, years, etc ',
+                                  'Find your actor by searching for his name',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 16,

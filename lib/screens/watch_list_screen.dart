@@ -31,7 +31,7 @@ class WatchList extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      'Watch list',
+                      'Actor list',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 24,
@@ -97,7 +97,7 @@ class WatchList extends StatelessWidget {
                         height: 200,
                       ),
                       Text(
-                        'No movies in your watch list',
+                        'No actors in your list',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w200,
