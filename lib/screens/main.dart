@@ -25,7 +25,7 @@ class Main extends StatelessWidget {
             decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(
-                  color: Color(0xFF0296E5),
+                  color: Color.fromARGB(255, 140, 1, 255),
                   width: 1,
                 ),
               ),
@@ -35,7 +35,7 @@ class Main extends StatelessWidget {
               onTap: (index) =>
                   Get.find<BottomNavigatorController>().setIndex(index),
               backgroundColor: const Color(0xFF242A32),
-              selectedItemColor: const Color(0xFF0296E5),
+              selectedItemColor: const Color.fromARGB(255, 140, 1, 255),
               unselectedItemColor: const Color(0xFF67686D),
               selectedFontSize: 12,
               unselectedFontSize: 12,
@@ -48,7 +48,7 @@ class Main extends StatelessWidget {
                       height: 21,
                       width: 21,
                       color: controller.index.value == 0
-                          ? const Color(0xFF0296E5)
+                          ? const Color.fromARGB(255, 140, 1, 255)
                           : const Color(0xFF67686D),
                     ),
                   ),
@@ -62,7 +62,7 @@ class Main extends StatelessWidget {
                       height: 21,
                       width: 21,
                       color: controller.index.value == 1
-                          ? const Color(0xFF0296E5)
+                          ? const Color.fromARGB(255, 140, 1, 255)
                           : const Color(0xFF67686D),
                     ),
                   ),
@@ -77,7 +77,7 @@ class Main extends StatelessWidget {
                       height: 21,
                       width: 21,
                       color: controller.index.value == 2
-                          ? const Color(0xFF0296E5)
+                          ? const Color.fromARGB(255, 140, 1, 255)
                           : const Color(0xFF67686D),
                     ),
                   ),

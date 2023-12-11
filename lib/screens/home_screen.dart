@@ -73,9 +73,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   const TabBar(
                       indicatorWeight: 4,
-                      indicatorColor: Color(
-                        0xFF3A3F47,
-                      ),
+                      indicatorColor: Color.fromARGB(255, 140, 1, 255),
                       tabs: [
                         Tab(text: 'Trending Actors'),
                         Tab(text: 'Popular'),
