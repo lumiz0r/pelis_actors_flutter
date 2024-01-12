@@ -239,7 +239,6 @@ class DetailsScreen extends StatelessWidget {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          // Add more details as needed
                                         ],
                                       ),
                                     );
